@@ -10,10 +10,10 @@ for oc in $(seq 0 255);do
     resp=$(ping $range.$oc -c1 &>/dev/null && echo -e "SIM" || echo -e "NAO")
     if test "$resp" = "SIM";then
         echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[32;1mdisponivel\e[00m"
-        echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[32;1mdisponivel\e[00m" >> output/sucesso-$filename.txt
+        echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[32;1mdisponivel\e[00m" >> sucesso-$filename.txt
     elif test "$resp" = "NAO";then
         echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[31;1mindisponivel\e[00m"
-        echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[31;1mindisponivel\e[00m" >> output/erro-$filename.txt
+        echo -e "\e[33;1m   [ $(date +%F) ] [ $(date +%T) ] Rede \e[34;1m $range.$oc \e[31;1mindisponivel\e[00m" >> erro-$filename.txt
     else
         continue
     fi
