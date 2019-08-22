@@ -1,0 +1,100 @@
+#!/bin/bash
+
+clear
+
+echo -ne "\n\e[33;1mInforme o primeiro octeto do ip: \e[00m";read oc_1
+echo -ne "\e[33;1mInforme o segundo octeto do ip: \e[00m";read oc_2
+echo -ne "\e[33;1mInforme o penultimo octeto do ip: \e[00m";read oc_3
+echo -ne "\e[33;1mInforme o ultimo octeto do ip: \e[00m";read oc_4
+echo -ne "\e[33;1mDeseja verificar qual octeto(1, 2, 4 ou 4)? : ";read n_oc
+echo -ne "\e[33;1mInforme o nome do arquivo de saida: \e[00m";read filename
+
+clear
+sleep 0.2
+
+echo -e "\t\e[35;1m[ Data ]       [ Hora ]\t\tTarget\t\tStatus\n\e[00m"
+echo -e "\t\e[35;1m=============================================================\e[00m"
+sleep 3
+
+check_primeiro_octeto() 
+{
+    for oc in $(seq 0 255);do
+        resp=$(ping $oc.$oc_2.$oc_3.$oc_4 -c1 &>/dev/null && echo -e "SIM" || echo -e "NAO")
+        if test "$resp" = "SIM";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc.$oc_2.$oc_3.$oc_4\t\e[32;1mDisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc.$oc_2.$oc_3.$oc_4\t\e[32;1mDisponivel\e[00m" >> sucesso-$filename.txt
+        elif test "$resp" = "NAO";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc.$oc_2.$oc_3.$oc_4\t\e[31;1mIndisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc.$oc_2.$oc_3.$oc_4\t\e[31;1mIndisponivel\e[00m" >> erro-$filename.txt
+        else
+            continue
+        fi
+    done
+
+}
+
+check_segundo_octeto() 
+{
+    for oc in $(seq 0 255);do
+        resp=$(ping $oc_1.$oc.$oc_3.$oc_4 -c1 &>/dev/null && echo -e "SIM" || echo -e "NAO")
+        if test "$resp" = "SIM";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc.$oc_3.$oc_4\t\e[32;1mDisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc.$oc_3.$oc_4\t\e[32;1mDisponivel\e[00m" >> sucesso-$filename.txt
+        elif test "$resp" = "NAO";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc.$oc_3.$oc_4\t\e[31;1mIndisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc.$oc_3.$oc_4\t\e[31;1mIndisponivel\e[00m" >> erro-$filename.txt
+        else
+            continue
+        fi
+    done
+
+}
+
+check_penultimo_octeto() 
+{
+    for oc in $(seq 0 255);do
+        resp=$(ping $oc_1.$oc_2.$oc.$oc_4 -c1 &>/dev/null && echo -e "SIM" || echo -e "NAO")
+        if test "$resp" = "SIM";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc.$oc_4\t\e[32;1mDisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc.$oc_4\t\e[32;1mDisponivel\e[00m" >> sucesso-$filename.txt
+        elif test "$resp" = "NAO";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc.$oc_4\t\e[31;1mIndisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc.$oc_4\t\e[31;1mIndisponivel\e[00m" >> erro-$filename.txt
+        else
+            continue
+        fi
+    done
+
+}
+
+check_ultimo_octeto() 
+{
+    for oc in $(seq 0 255);do
+        resp=$(ping $oc_1.$oc_2.$oc_3.$oc -c1 &>/dev/null && echo -e "SIM" || echo -e "NAO")
+        if test "$resp" = "SIM";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc_3.$oc\t\e[32;1mDisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc_3.$oc\t\e[32;1mDisponivel\e[00m" >> sucesso-$filename.txt
+        elif test "$resp" = "NAO";then
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc_3.$oc\t\e[31;1mIndisponivel\e[00m"
+            echo -e "\e[33;1m\t[ $(date +%F) ] [ $(date +%T) ]\t\e[34;1m$oc_1.$oc_2.$oc_3.$oc\t\e[31;1mIndisponivel\e[00m" >> erro-$filename.txt
+        else
+            continue
+        fi
+    done
+
+}
+
+if test "$n_oc" -eq 1;then
+    check_primeiro_octeto
+elif test "$n_oc" -eq 2;then
+    check_segundo_octeto
+elif test "$n_oc" -eq 3;then
+    check_penultimo_octeto
+elif test "$n_oc" -eq 4;then
+    check_ultimo_octeto
+else
+    clear
+    echo -e "\n\e[31;1mHouve um erro na escolha de opçoes!\e[00m"
+    sleep 5
+    source ip_check
+fi
